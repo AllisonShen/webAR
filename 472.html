@@ -26,7 +26,9 @@
  
 	var device_type = navigator.userAgent;//获取userAgent信息
 	document.write(device_type);//打印到页面
-	document.write("\nHello world\n");
+	document.write("\n");
+	document.write("Hello world");
+
 	var md = new MobileDetect(device_type);//初始化mobile-detect
 	var os = md.os();//获取系统
 	var model = "";
