@@ -9,12 +9,12 @@
           content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 
 
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>GeoAR.js demo</title>
-    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+<!--    <meta charset="utf-8" />-->
+<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+<!--    <title>GeoAR.js demo</title>-->
+<!--    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>-->
+<!--    <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>-->
+<!--    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>-->
 </head>
 <body>
 
@@ -34,30 +34,13 @@
     $(document).ready(function(){
         // var x = document.getElementById("demo");
 
-        function getLocation() {
-            if (navigator.geolocation) {
-                $("#demo").append("Geolocation is supported. Please wait......<br>");
-                // x.innerHTML = "Geolocation is supported. Please wait......\n";
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                $("#demo").append("Geolocation is not supported by this browser.<br>");
-                // x.innerHTML = "Geolocation is not supported by this browser.";
-            }
-        }
 
-        function showPosition(position) {
-            $("#demo").append("Begin to print Lai & Lon: <br>");
-            $("#demo").append("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
-            // x.innerHTML = "Latitude: " + position.coords.latitude +
-            //     "<br>Longitude: " + position.coords.longitude;
-        }
-        getLocation();
 
 
         ////////////////
 
-        $("#demo").append("GPU:"+MobileDevice.getGlRenderer()+"<br>");
-        $("#demo").append("Resolution: "+MobileDevice.getResolution()+"<br>");
+        $("#demo").append("GPU:"+MobileDevice.getGlRenderer()+"\n<br>");
+        $("#demo").append("Resolution: "+MobileDevice.getResolution()+"\n<br>");
 
         //判断数组中是否包含某字符串
         Array.prototype.contains = function(needle) {
@@ -70,7 +53,7 @@
 
         var device_type = navigator.userAgent;//获取userAgent信息
         // document.write("<h1>" + device_type +"</h1>");//打印到页面
-        $("#demo").append( device_type +"<br>");
+        $("#demo").append( device_type +"\n<br>");
 
 
         var md = new MobileDetect(device_type);//初始化mobile-detect
@@ -88,39 +71,79 @@
             }
         }
         // alert(os + "---" + model);//打印系统版本和手机型号
-        $("#demo").append("Os version and mobile id: "+os + "---" + model + "<br>");
+        $("#demo").append("Os version and mobile id: "+os + "---" + model + "\n<br>");
 
 
-        //test
+        //
 
-        $("a-text.gps-entity-place").val("Hello World");
+//////////////////////////////////
+        function getLocation() {
+            if (navigator.geolocation) {
+                $("#demo").append("Geolocation is supported. Please wait......\n<br>");
+                // x.innerHTML = "Geolocation is supported. Please wait......\n";
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                $("#demo").append("Geolocation is not supported by this browser.\n<br>");
+                // x.innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+        var canConvert = false;
+        function showPosition(position) {
+            $("#demo").append("Begin to print Lai & Lon: \n<br>");
+            $("#demo").append("Latitude: " + position.coords.latitude + "\n<br>Longitude: " + position.coords.longitude +"\n");
+            // x.innerHTML = "Latitude: " + position.coords.latitude +
+            //     "<br>Longitude: " + position.coords.longitude;
+            var str = $("#demo").text();
+            console.log("Print stringTwo: "+str);
+
+
+            //split
+            var listStr = str.split("\n");
+            console.log("After split (stringThree): "+listStr);
+
+            //to image
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+            ctx.font = "30px Arial";
+            var str = $("#demo").text();
+            console.log("Print stringOne: "+str);
+            for(var i=0;i<listStr.length;i++){
+                var x = 10;
+                var y = 50+(i*50);
+                // var y = 50;
+
+                ctx.fillText(listStr[i],x,y);
+            }
+
+            var canvas = document.getElementById("myCanvas");
+            var img    = canvas.toDataURL("image/png");
+            document.write('<img src="'+img+'"/>');
+        }
+        getLocation();
+  //////////////////////////////////////
+
+
+
+
+
+
     });
 </script>
 
-<!--<h1>GPU: <script>document.write(MobileDevice.getGlRenderer());</script></h1>-->
-<!--<h1>Resolution: <script>document.write(MobileDevice.getResolution());</script></h1>-->
-<!--<h1>Device Models: <script>document.write(MobileDevice.getModels().join(' or '));</script></h1>-->
 
-<!--<p>Click the button to get your coordinates.</p>-->
 
-<!--<button onclick="getLocation()">Try It</button>-->
+<p id="demo" ></p>
 
-<p id="demo" hidden></p>
 
-<a-scene
-        vr-mode-ui="enabled: false"
-        embedded
-        arjs="sourceType: webcam; debugUIEnabled: false;"
->
-    <a-text id = "test"
-            class="item-1"
-            value="This content will always face you."
-            look-at="[gps-camera]"
-            scale="120 120 120"
-            gps-entity-place="latitude: <add-your-latitude>; longitude: <add-your-longitude>;"
-    ></a-text>
-    <a-camera gps-camera rotation-reader> </a-camera>
-</a-scene>
+<canvas id="myCanvas" width="2000" height="1000" style="border:1px solid #d3d3d3;">
+    Your browser does not support the HTML canvas tag.</canvas>
+
+<script>
+
+</script>
+
+
+
 
 </body>
 </html>
