@@ -18,69 +18,82 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.js" integrity="" crossorigin="anonymous"></script>
 <script>
 
-    //判断数组中是否包含某字符串
-    Array.prototype.contains = function(needle) {
-        for (i in this) {
-            if (this[i].indexOf(needle) > 0)
-                return i;
-        }
-        return -1;
-    }
-
-    var device_type = navigator.userAgent;//获取userAgent信息
-    document.write("<h1>" + device_type +"</h1>");//打印到页面
-
-    var md = new MobileDetect(device_type);//初始化mobile-detect
-    var os = md.os();//获取系统
-    var model = "";
-    if (os == "iOS") {//ios系统的处理
-        os = md.os() + md.version("iPhone");
-        model = md.mobile();
-    } else if (os == "AndroidOS") {//Android系统的处理
-        os = md.os() + md.version("Android");
-        var sss = device_type.split(";");
-        var i = sss.contains("Build/");
-        if (i > -1) {
-            model = sss[i].substring(0, sss[i].indexOf("Build/"));
-        }
-    }
-    alert(os + "---" + model);//打印系统版本和手机型号
 
     ////////////////////GPS infor
 
 
 
     $(document).ready(function(){
-        var x = document.getElementById("demo");
+        // var x = document.getElementById("demo");
 
         function getLocation() {
             if (navigator.geolocation) {
-                x.innerHTML = "Geolocation is supported. Please wait......\n";
+                $("#demo").append("Geolocation is supported. Please wait......<br>");
+                // x.innerHTML = "Geolocation is supported. Please wait......\n";
                 navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
+                $("#demo").append("Geolocation is not supported by this browser.<br>");
+                // x.innerHTML = "Geolocation is not supported by this browser.";
             }
         }
 
         function showPosition(position) {
-            x.innerHTML = "Begin to print Lai & Lon: \n";
-            x.innerHTML = "Latitude: " + position.coords.latitude +
-                "<br>Longitude: " + position.coords.longitude;
+            $("#demo").append("Begin to print Lai & Lon: <br>");
+            $("#demo").append("Latitude: " + position.coords.latitude + "<br>Longitude: " + position.coords.longitude);
+            // x.innerHTML = "Latitude: " + position.coords.latitude +
+            //     "<br>Longitude: " + position.coords.longitude;
         }
         getLocation();
+
+
+        ////////////////
+
+        $("#demo").append("GPU:"+MobileDevice.getGlRenderer()+"<br>");
+        $("#demo").append("Resolution: "+MobileDevice.getResolution()+"<br>");
+
+        //判断数组中是否包含某字符串
+        Array.prototype.contains = function(needle) {
+            for (i in this) {
+                if (this[i].indexOf(needle) > 0)
+                    return i;
+            }
+            return -1;
+        }
+
+        var device_type = navigator.userAgent;//获取userAgent信息
+        // document.write("<h1>" + device_type +"</h1>");//打印到页面
+        $("#demo").append( device_type +"<br>");
+
+
+        var md = new MobileDetect(device_type);//初始化mobile-detect
+        var os = md.os();//获取系统
+        var model = "";
+        if (os == "iOS") {//ios系统的处理
+            os = md.os() + md.version("iPhone");
+            model = md.mobile();
+        } else if (os == "AndroidOS") {//Android系统的处理
+            os = md.os() + md.version("Android");
+            var sss = device_type.split(";");
+            var i = sss.contains("Build/");
+            if (i > -1) {
+                model = sss[i].substring(0, sss[i].indexOf("Build/"));
+            }
+        }
+        // alert(os + "---" + model);//打印系统版本和手机型号
+        $("#demo").append("Os version and mobile id: "+os + "---" + model + "<br>");
 
     });
 </script>
 
-<h1>GPU: <script>document.write(MobileDevice.getGlRenderer());</script></h1>
-<h1>Resolution: <script>document.write(MobileDevice.getResolution());</script></h1>
+<!--<h1>GPU: <script>document.write(MobileDevice.getGlRenderer());</script></h1>-->
+<!--<h1>Resolution: <script>document.write(MobileDevice.getResolution());</script></h1>-->
 <!--<h1>Device Models: <script>document.write(MobileDevice.getModels().join(' or '));</script></h1>-->
 
 <!--<p>Click the button to get your coordinates.</p>-->
 
 <!--<button onclick="getLocation()">Try It</button>-->
 
-<p id="demo"></p>
+<p id="demo" hidden></p>
 
 </body>
 </html>
