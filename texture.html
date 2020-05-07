@@ -129,6 +129,7 @@
 		//to image line by line
 		var c = document.getElementById("myCanvas");
 		var ctx = c.getContext("2d");
+		ctx.fillStyle = "yellow";
 		ctx.font = "30px Arial";
 		var str = $("#demo").text();
 		console.log("Print stringOne: "+str);
@@ -145,7 +146,7 @@
 		img    = canvas.toDataURL("image/png"); //
 		// document.write('<img src="'+img+'"/>'); // write
 		// document.write('<img hidden id='imageInfo' src="'+img+'"/>'); // write
-		document.write('<img hidden id="imageInfo" src="'+img+'"/>'); // write
+		document.write('<img  id="imageInfo" src="'+img+'"/>'); // write
 		console.log("Done!");
 	}
 
@@ -180,7 +181,7 @@
 			antialias : true,
 			alpha: true
 		});
-		renderer.setClearColor(new THREE.Color('white'), 0)
+		renderer.setClearColor(new THREE.Color('lightgrey'), 0)
 		renderer.setSize( 64000, 48000 );//
 		renderer.domElement.style.position = 'absolute'
 		renderer.domElement.style.top = '0px'
