@@ -17,12 +17,27 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
+
+<canvas id="myCanvas" width="200" height="100" style="border:1px solid #d3d3d3;">
+	Your browser does not support the HTML canvas tag.</canvas>
+
 <!-- 
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
 
 <script>
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	ctx.font = "30px Arial";
+	ctx.fillText("Hello World",10,50);
+
+	var canvas = document.getElementById("myCanvas");
+	var img    = canvas.toDataURL("image/png");
+	document.write('<img src="'+img+'"/>');
+
+
+	//url
 
 var scene, camera, renderer, clock, deltaTime, totalTime, keyboard;
 
@@ -136,8 +151,9 @@ function initialize()
 	
 	let loader = new THREE.TextureLoader();
 	
-	let geometry1 = new THREE.SphereGeometry(1, 32,32);	
-	let texture = loader.load( 'images/earth-sphere.jpg' );
+	let geometry1 = new THREE.SphereGeometry(1, 32,32);
+	let texture = loader.load( img );
+	// let texture = loader.load( 'images/earth-sphere.jpg' );
 	let material1 = new THREE.MeshLambertMaterial( { map: texture, opacity: 0.75 } );
 	globe = new THREE.Mesh( geometry1, material1 );
 	globe.position.y = 1;
@@ -230,7 +246,13 @@ function animate()
 	render();
 }
 
+
+
 </script>
+
+
+
+
 
 </body>
 </html>
