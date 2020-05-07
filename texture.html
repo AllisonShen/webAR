@@ -24,15 +24,21 @@
 
 <script>
 	//generate text
-	var c = document.getElementById("myCanvas");
-	var ctx = c.getContext("2d");
-	ctx.font = "30px Arial";
-	ctx.fillText("Hello World",10,50);
 
-	var canvas = document.getElementById("myCanvas");
-	var img    = canvas.toDataURL("image/png");
-	document.write('<img src="'+img+'"/>');
+    convertInfoToImg();
+	runThisArJS();    //needs to modify
+    //convert to img
+	var img = null;
+	function convertInfoToImg(){
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+		ctx.font = "30px Arial";
+		ctx.fillText("Hello World",10,50);
 
+		var canvas = document.getElementById("myCanvas");
+		 img    = canvas.toDataURL("image/png");
+		document.write('<img src="'+img+'"/>');
+	}
 
 	//ar.js
 	var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -43,8 +49,12 @@
 
 	var mesh1;
 
-	initialize();
-	animate();
+
+    function runThisArJS(){
+		initialize();
+		animate();
+	}
+
 
 	function initialize()
 	{
